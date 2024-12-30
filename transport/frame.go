@@ -186,7 +186,7 @@ func (r *chunkReader) readHeader() error {
 		return io.EOF
 	}
 
-	var n int
+	var n uint
 	for {
 		c, err := r.r.ReadByte()
 		if err != nil {
@@ -199,7 +199,7 @@ func (r *chunkReader) readHeader() error {
 		if c < '0' || c > '9' {
 			return ErrMalformedChunk
 		}
-		n = n*10 + int(c) - '0'
+		n = n*10 + uint(c) - '0'
 	}
 
 	const maxChunk = 4294967295
@@ -207,7 +207,7 @@ func (r *chunkReader) readHeader() error {
 		return ErrMalformedChunk
 	}
 
-	r.chunkLeft = n
+	r.chunkLeft = int(n)
 	return nil
 }
 
